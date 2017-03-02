@@ -1,0 +1,19 @@
+# see
+# http://yaaat.com/rcfiles/screenrc.txt
+
+startup_message off
+
+# Window list at the bottom.
+# for format see
+# http://www.debian-administration.org/articles/560
+hardstatus alwayslastline
+hardstatus string "%-w%{= BW}%50>%n %t%{-}%+w%<"
+
+# From Stephen Shirley
+# Don't block command output if the terminal stops responding
+# (like if the ssh connection times out for example).
+nonblock on
+
+
+# make sure to start bash, not sh
+shell /bin/bash

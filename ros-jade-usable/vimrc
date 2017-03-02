@@ -1,0 +1,152 @@
+" dotfiles_reallocation "/home/skunk/.vimrc"
+" dotfiles_onlysoftlink true
+
+
+set nocompatible                     " break VI compatibility
+set modeline                         " allow usage of commands in files
+set encoding=utf-8                   " encoding defaults to utf8
+
+set foldmethod=syntax                " folding
+set wrap linebreak textwidth=0       " for soft wrap
+
+
+
+""" tabs
+set tabstop=4                        " spaces per tab
+set shiftwidth=4                     " spaces per autoindent
+set expandtab                        " spaces instead of tabs
+set smartindent
+filetype plugin indent on            " type dependent indentation
+
+
+
+"""" parenthesis
+set showmatch                        " show matching parenthesis
+set matchpairs+=<:>                  " add this to list of parenthesis
+:runtime macros/matchit.vim          " allow matching of words -- cycle them with `%'
+let b:match_words = '\\begin:\\end'  " match \begin ... \end pair
+
+
+
+""" file types
+" use syntax method tcl for mif files
+autocmd BufRead,BufNewFile *.mif set filetype=tcl
+" txt2tags
+autocmd BufRead,BufNewFile *.t2t set filetype=txt2tags
+autocmd BufRead,BufNewFile *.notes set filetype=txt2tags
+
+
+
+"""" vim-latexsuite
+"filetype plugin indent on  " see above
+set grepprg=grep\ -nH\ $*
+let g:tex_flavor = "latex"
+" formatting
+" see http://vim.wikia.com/wiki/Formatting_paragraphs_in_LaTeX:                  _an_%22environment-
+" `gplp' formats paragraphs with \begin..\end correctly
+omap lp ?^$\\|^\s*\(\\begin\\|\\end\\|\\label\)?1<CR>//-1<CR>.<CR>
+" format current sentence and split line break if not at end of line
+" (overwrite gs = goto sleep, requires '.' at the end of the sentence)
+nnoremap gs gqisk)T.r<CR>
+" Set textwidth to 80 for .tex files.
+" See http://stackoverflow.com/questions/16239553
+autocmd bufreadpre *.tex setlocal textwidth=80
+
+
+"""" slimv (lisp ide)
+" disable automatic parent setting
+let g:paredit_mode=0
+" color opening and closing parens in the same color
+let g:lisp_rainbow=1
+
+
+""" mutt
+au BufRead /tmp/mutt* setfiletype mail
+
+
+""" umlauts
+" ,u substitues all LaTeX-Umlauts to utf8-umlauts
+map ,u :%! umlauts<CR>
+" ,um does the same as ,u but only in lines not beginning with >
+map ,um :%! umlauts -m<CR>
+" ,ur substitues utf8-umlauts to ae etc
+map ,ur :%! umlauts -u -e<CR>
+
+
+"""" colouring
+colorscheme desert
+syntax on
+" set syntax highlighting only for the first ... columns:
+set synmaxcol=200
+" workaround for xterm problem
+" http://www.linuxquestions.org/questions/slackware-14/vim-colours-change-slightly-in-xterm-when-a-key-is-pressed-878856/
+if &term =~ "xterm"
+  set t_Co=256
+endif
+" Find unwanted whitespace
+" see http://vim.wikia.com/wiki/Highlight_unwanted_spaces
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+autocmd BufWinLeave * call clearmatches()
+" in vimdiff, use different colorscheme
+if &diff
+    colorscheme industry
+endif
+
+
+
+""" tabs
+set hid "Change buffer - without saving. See http://amix.dk/vim/vimrc.html
+
+
+""" statusbar with filename, linenr etc.
+set statusline=%<%F%=\ %l,%c\ (%p%%)
+set ls=2
+
+
+""" toggle `paste' by pressing F2
+nnoremap <F2> :set invpaste paste?<CR>
+set pastetoggle=<F2>
+set showmode
+
+
+"""" search
+set incsearch                         " search incrementally
+set ignorecase
+set smartcase
+" use `:noh' to get rid of the enerving highlighting
+
+
+"""" spelling
+" needs hunspell dictionaries
+" check ~/.vim/spell or /usr/share/vim/vim73/spell/ for dictionaries
+set spelllang=de    " german
+" set spelllang=en    " english
+" activate via :set spell
+
+
+"""" run programs (associated via file ending) via F5
+"" octave
+autocmd BufNewFile,BufRead *.m,*.oct nmap <F5> :!clear && octave %<CR>
+"" python
+autocmd BufNewFile,BufRead *.py nmap <F5> :!clear && python %<CR>
+"" bash
+autocmd BufNewFile,BufRead *.sh nmap <F5> :!clear && bash %<CR>
+"" gnuplot
+autocmd BufNewFile,BufRead *.plt nmap <F5> :!clear && gnuplot %<CR>
+"" tcl
+autocmd BufNewFile,BufRead *.tcl,*.tclsh nmap <F5> :!clear && tclsh %<CR>
+"" c++
+autocmd BufNewFile,BufRead *.cpp nmap <F5> :!clear && g++ % && ./a.out<CR>
+"" markdown
+autocmd BufNewFile,BufRead *.md nmap <F5> :!clear && preview_markdown %<CR>
+
+
+"""" Save backups (with ~ extension) in /tmp
+" enable backups
+set backup
+" If /tmp should not be writable, use current directory or even HOME.
+set backupdir=/tmp,.,~/
