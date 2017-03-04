@@ -24,4 +24,4 @@ RUN cd ${WORKSPACE} \
     && catkin build
 
 # append the setup of this workspace to bashrc
-RUN echo "source ${WORKSPACE}/deve/setup.bash" >> ~/.bashrc
+RUN echo "source ${WORKSPACE}/devel/setup.bash" >> ~/.bashrc
