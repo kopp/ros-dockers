@@ -20,7 +20,8 @@ RUN cd ${WORKSPACE} \
     && rm -rf /var/lib/apt/lists/*
 
 # build packages
-RUN catkin build
+RUN cd ${WORKSPACE} \
+    && catkin build
 
 # append the setup of this workspace to bashrc
 RUN echo "source ${WORKSPACE}/deve/setup.bash" >> ~/.bashrc
