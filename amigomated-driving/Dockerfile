@@ -25,3 +25,9 @@ RUN cd ${WORKSPACE} \
 
 # append the setup of this workspace to bashrc
 RUN echo "source ${WORKSPACE}/devel/setup.bash" >> ~/.bashrc
+
+
+## Fixes
+# - Remove 'libdc1394 error: Failed to initialize libdc1394' when using opencv
+#   see http://stackoverflow.com/questions/12689304
+RUN ln /dev/null /dev/raw1394
