@@ -17,5 +17,6 @@ echo Going to build image from revision $revision_short
 #             clone, though, which will result in different data fetched and
 #             thus the successive RUNs will create something different.
 docker build --no-cache \
+    -t amigomated-driving:latest \
     -t amigomated-driving:$revision_short \
     .
