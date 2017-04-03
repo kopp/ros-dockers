@@ -34,47 +34,12 @@ autocmd BufRead,BufNewFile *.mif set filetype=tcl
 " txt2tags
 autocmd BufRead,BufNewFile *.t2t set filetype=txt2tags
 autocmd BufRead,BufNewFile *.notes set filetype=txt2tags
-
-
-
-"""" vim-latexsuite
-"filetype plugin indent on  " see above
-set grepprg=grep\ -nH\ $*
-let g:tex_flavor = "latex"
-" formatting
-" see http://vim.wikia.com/wiki/Formatting_paragraphs_in_LaTeX:                  _an_%22environment-
-" `gplp' formats paragraphs with \begin..\end correctly
-omap lp ?^$\\|^\s*\(\\begin\\|\\end\\|\\label\)?1<CR>//-1<CR>.<CR>
-" format current sentence and split line break if not at end of line
-" (overwrite gs = goto sleep, requires '.' at the end of the sentence)
-nnoremap gs gqisk)T.r<CR>
-" Set textwidth to 80 for .tex files.
-" See http://stackoverflow.com/questions/16239553
-autocmd bufreadpre *.tex setlocal textwidth=80
-
-
-"""" slimv (lisp ide)
-" disable automatic parent setting
-let g:paredit_mode=0
-" color opening and closing parens in the same color
-let g:lisp_rainbow=1
-
-
-""" mutt
 au BufRead /tmp/mutt* setfiletype mail
 
 
-""" umlauts
-" ,u substitues all LaTeX-Umlauts to utf8-umlauts
-map ,u :%! umlauts<CR>
-" ,um does the same as ,u but only in lines not beginning with >
-map ,um :%! umlauts -m<CR>
-" ,ur substitues utf8-umlauts to ae etc
-map ,ur :%! umlauts -u -e<CR>
-
 
 """" colouring
-colorscheme desert
+#colorscheme desert
 syntax on
 " set syntax highlighting only for the first ... columns:
 set synmaxcol=200
